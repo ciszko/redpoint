@@ -34,4 +34,18 @@ jobs:
         uv run ruff check redpoint
     - name: Test with pytest
       run: |
-        uv run pytest
+        uv run coverage run --source=redpoint -m pytest -v tests && coverage json
+    - name: Coveralls Parallel
+      uses: coverallsapp/github-action@v2
+      with:
+        flag-name: run-${{ join(matrix.*, '-') }}
+        parallel: true
+  finish:
+    needs: build
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Coveralls Finished
+      uses: coverallsapp/github-action@v2
+      with:
+        parallel-finished: true
