@@ -1,0 +1,10 @@
+[project]
+name = "redpoint"
+version = "1.0.0"
+description = "Climbing grade converter"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = []
+
+[dependency-groups]
+dev = ["coverage>=7.6.1", "pytest>=8.3.4", "ruff>=0.9.6"]
