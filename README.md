@@ -5,6 +5,8 @@
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/release/python-3120/)
 [![Python 3.13](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/downloads/release/python-3130/)
 
+[![Coverage Status](https://coveralls.io/repos/github/ciszko/redpoint/badge.svg?branch=master)](https://coveralls.io/github/ciszko/redpoint?branch=master)
+
 # 🔴 red-point
 
 Converting climbing grades made easy!
