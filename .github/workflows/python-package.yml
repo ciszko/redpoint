@@ -34,7 +34,7 @@ jobs:
         uv run ruff check redpoint
     - name: Test with pytest
       run: |
-        uv run coverage run --source=redpoint -m pytest -v tests && coverage json
+        uv run coverage run --source=redpoint -m pytest -v tests && uv run coverage json
     - name: Coveralls Parallel
       uses: coverallsapp/github-action@v2
       with:
