@@ -1,11 +1,6 @@
-[![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/)
-[![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
-[![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/downloads/release/python-3100/)
-[![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/release/python-3110/)
-[![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/release/python-3120/)
-[![Python 3.13](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/downloads/release/python-3130/)
+[![Python Versions](https://img.shields.io/badge/Python%20Version-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue?style=flat)](https://pypi.org/project/redpoint/)
 
-[![Coverage Status](https://coveralls.io/repos/github/ciszko/redpoint/badge.svg?branch=master)](https://coveralls.io/github/ciszko/redpoint?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/ciszko/redpoint/badge.svg?branch=master)](https://pypi.org/project/redpoint/)
 
 # 🔴 red-point
 
