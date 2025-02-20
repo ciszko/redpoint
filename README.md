@@ -31,7 +31,7 @@ Grade("5a", "Brittish Tech.").to_range("French")
 >>> [<5b, 'French'>, <5b+, 'French'>, <5c, 'French'>, <5c+, 'French'>, <6a, 'French'>]
 ```
 
-For a full list of features check out the documentation
+For the full list of features check out the [documentation](https://ciszko.github.io/redpoint/).
 
 ## Installation
 
@@ -43,9 +43,9 @@ python -m pip install redpoint
 
 ## Supported systems
 
-`🔴 redpoint` supports all the systems available on [thecrag.com](https://www.thecrag.com):
+`🔴 redpoint` supports all the systems available on [thecrag.com](https://www.thecrag.com/en/article/gradesonthecrag):
 
-Sport:
+**Sport**:
 - Band Sport (difficulty levels)
 - Ewbanks
 - YDS
@@ -63,7 +63,7 @@ Sport:
 - Swedish
 - Russian
 
-Boulder:
+**Boulder**:
 - Band Boulder (difficulty levels)
 - V-Scale
 - B-Scale
@@ -74,7 +74,7 @@ Boulder:
 - Annot B-Scale
 - Font Traverse
 
-Other systems:
+**Other systems**:
 - Band Other (difficulty levels)
 - Aid
 - Alpine Ice

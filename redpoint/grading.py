@@ -20,11 +20,9 @@ class METHOD_MAPPING:
     """Method used to convert the grades. Uses universal value
     to compare the grades.
 
-    MIN - the easiest possible grade in that range, `universal_value["start"]`
-
-    AVERAGE - the average grade in that range, `(universal_value["start"] + universal_value["height"])//2`
-
-    MAX - the hardest grade in that range, `universal_value["start"] + universal_value["height"]`
+    * MIN - the easiest possible grade in that range, `universal_value["start"]`
+    * AVERAGE - the average grade in that range, `(universal_value["start"] + universal_value["height"])//2`
+    * MAX - the hardest grade in that range, `universal_value["start"] + universal_value["height"]`
     """
 
     MIN = "min"
@@ -63,8 +61,9 @@ class GradingSystem:
 
     For supported systems take a look at `VALID_NAMES` list.
     `GradingSystem` supports the following operations:
-    - can be iterated over `for x in system:`
-    - can be indexed to return a `Grade` `GradingSystem("YDS")["5.8"]`
+
+    * can be iterated over `for x in system:`
+    * can be indexed to return a `Grade` `GradingSystem("YDS")["5.8"]`
     """
 
     def __init__(self, name: str):
@@ -196,9 +195,10 @@ class Grade:
     """A class representing one single grade from a given grading system.
 
     `Grade` supports the following operations:
-    - adding (+ int), getting x harder grade
-    - substracting (- int), getting x easier grade
-    - comparing between grades of any system (`==`, `>`, `>`, `>=`, `<=`)
+
+    * adding (+ int), getting x harder grade. :code:`Grade("5a", "French") + 2 == Grade("5b", "French")`
+    * substracting (- int), getting x easier grade. :code:`Grade("5.12a", "YDS") - 5 == Grade("5.10d", "YDS")`
+    * comparing between grades of any system (`==`, `>`, `>`, `>=`, `<=`)
 
     Each grade has its own `universal_grade` which is used for conversion
     between the systems as well as for comparisons between the grades.
