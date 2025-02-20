@@ -2,7 +2,7 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/ciszko/redpoint/badge.svg?branch=master)](https://pypi.org/project/redpoint/)
 
-# 🔴 red-point
+# 🔴 redpoint
 
 Converting climbing grades made easy!
 
@@ -33,3 +33,54 @@ Grade("5a", "Brittish Tech.").to_range("French")
 
 For a full list of features check out the documentation
 
+## Installation
+
+redpoint is available on Pypi and can be installed with:
+
+```shell
+python -m pip install redpoint
+```
+
+## Supported systems
+
+`🔴 redpoint` supports all the systems available on [thecrag.com](https://www.thecrag.com):
+
+Sport:
+- Band Sport (difficulty levels)
+- Ewbanks
+- YDS
+- NCCS Scale
+- French
+- British Tech.
+- UIAA
+- South African
+- Old South African
+- Saxon
+- Finnish
+- Norwegian
+- Polish
+- Brazil Technical
+- Swedish
+- Russian
+
+Boulder:
+- Band Boulder (difficulty levels)
+- V-Scale
+- B-Scale
+- S-Scale
+- P-Scale
+- Joshua Tree Scale
+- Fontainebleau
+- Annot B-Scale
+- Font Traverse
+
+Other systems:
+- Band Other (difficulty levels)
+- Aid
+- Alpine Ice
+- Water Ice
+- Mixed Rock/Ice
+- Ferrata Schall
+- Ferrata Num
+- Ferrata French
+- Scottish Winter Technical

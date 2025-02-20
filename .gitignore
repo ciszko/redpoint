@@ -10,6 +10,5 @@ wheels/
 .venv
 
 .coverage
-
-redpoint/xd.html
-redpoint/create_mappings.py
+.pytest_cache
+.ruff_cache

@@ -3,8 +3,28 @@ name = "redpoint"
 version = "1.0.0"
 description = "Climbing grade converter"
 readme = "README.md"
+keywords = ["pip", "climbing", "converter"]
 requires-python = ">=3.8"
-dependencies = []
+authors = [{ name = "Marcin Kalinski", email = "marcinkalinski1997@gmail.com" }]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = { file = "LICENSE" }
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project.urls]
+Homepage = "https://github.com/ciszko/redpoint"
+Issues = "https://github.com/ciszko/redpoint/issues"
 
 [dependency-groups]
-dev = ["coverage>=7.6.1", "pytest>=8.3.4", "ruff>=0.9.6"]
+dev = [
+    "coverage>=7.6.1",
+    "furo>=2024.8.6",
+    "pytest>=8.3.4",
+    "ruff>=0.9.6",
+    "sphinx>=7.1.2",
+]

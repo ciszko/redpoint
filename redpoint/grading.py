@@ -2,6 +2,8 @@ from __future__ import annotations
 from typing import Generator, Optional, TypedDict
 from .mappings import (
     BOULDER_MAPPING,
+    OTHER_MAPPING,
+    OTHER_SYSTEMS,
     SPORT_MAPPING,
     NAMING_MAP,
     BOULDER_SYSTEMS,
@@ -15,38 +17,65 @@ class UniversalGrade(TypedDict):
 
 
 class METHOD_MAPPING:
+    """Method used to convert the grades. Uses universal value
+    to compare the grades.
+
+    MIN - the easiest possible grade in that range, `universal_value["start"]`
+
+    AVERAGE - the average grade in that range, `(universal_value["start"] + universal_value["height"])//2`
+
+    MAX - the hardest grade in that range, `universal_value["start"] + universal_value["height"]`
+    """
+
     MIN = "min"
     AVERAGE = "avg"
     MAX = "max"
 
 
 class SYSTEM_TYPE:
+    """Internally used to indicate from which type is the grading system."""
+
     SPORT = "SPORT"
     BOULDER = "BOULDER"
+    OTHER = "OTHER"
 
 
 class UnknownGrade(BaseException):
+    """Indicates an unknown grade. Can be a typo or a grade outside of the grading system."""
+
     pass
 
 
 class UnknownSystem(BaseException):
+    """Indicates an unknown grading system."""
+
     pass
 
 
 class ConversionError(BaseException):
+    """Raised when trying to convert different types of grades, e.g sport -> boulder."""
+
     pass
 
 
 class GradingSystem:
     """A class representing a grading system.
 
-    For supported systems take a look at `VALID_SYSTEMS` list.
+    For supported systems take a look at `VALID_NAMES` list.
     `GradingSystem` supports the following operations:
     - can be iterated over `for x in system:`
     - can be indexed to return a `Grade` `GradingSystem("YDS")["5.8"]`
     """
 
-    def __init__(self, name):
+    def __init__(self, name: str):
+        """Constructor
+
+        Args:
+            name (str): name of the system
+
+        Raises:
+            UnknownSystem: when no system is found with the given name
+        """
         try:
             system_name = NAMING_MAP[name.lower()]
         except KeyError as e:
@@ -56,6 +85,9 @@ class GradingSystem:
         if system_name in BOULDER_SYSTEMS:
             system_type = SYSTEM_TYPE.BOULDER
             mapping = BOULDER_MAPPING[system_name]
+        elif system_name in OTHER_SYSTEMS:
+            system_type = SYSTEM_TYPE.OTHER
+            mapping = OTHER_MAPPING[system_name]
         else:
             system_type = SYSTEM_TYPE.SPORT
             mapping = SPORT_MAPPING[system_name]
@@ -80,7 +112,18 @@ class GradingSystem:
     def __repr__(self) -> str:  # pragma: no cover
         return f"<{self.__str__()}>"
 
-    def get_grade_index(self, key) -> tuple[UniversalGrade, int]:
+    def get_grade_index(self, key: str) -> tuple[UniversalGrade, int]:
+        """Returns the universal value of the grade and its index in the system.
+
+        Args:
+            key (str): name of the grade
+
+        Raises:
+            UnknownGrade: when the grade is not found in the system.
+
+        Returns:
+            tuple[UniversalGrade, int]: the universal value of the grade and its index
+        """
         try:
             return next(
                 (self.mapping[grade], i)
@@ -118,7 +161,7 @@ class GradingSystem:
         return Grade(grade, self.name)
 
     def get_range(self, universal_grade: UniversalGrade) -> list[Grade]:
-        """Returns a range of `Grade`s from the universal value.
+        """Returns a range of `Grade` from the universal value.
 
         Args:
             universal_grade (UniversalGrade): The universal value of a given grade.
@@ -161,7 +204,13 @@ class Grade:
     between the systems as well as for comparisons between the grades.
     """
 
-    def __init__(self, value, scale):
+    def __init__(self, value: str, scale: str):
+        """Constructor
+
+        Args:
+            value (str): the name of the grade
+            scale (str): the name of the system of the grade
+        """
         self.value = value
         self.system = GradingSystem(scale)
         universal_grade, system_index = self.system.get_grade_index(value)
@@ -194,7 +243,7 @@ class Grade:
         """Returns one grade easier.
 
         Returns:
-            Grade: The easier grade,
+            Grade: The easier grade.
         """
         return self.__sub__(1)
 

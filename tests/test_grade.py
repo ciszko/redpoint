@@ -3,7 +3,7 @@ import pytest
 from redpoint import Grade, UnknownSystem, UnknownGrade, ConversionError
 
 
-value_system_param = (
+sport_system_param = (
     ("Beginner", "Band Sport"),
     ("12", "Ewbanks"),
     ("5.5", "YDS"),
@@ -22,8 +22,34 @@ value_system_param = (
     ("3B", "Russian"),
 )
 
+boulder_system_param = (
+    ("Beginner", "Band Boulder"),
+    ("V4", "V-Scale"),
+    ("B2-", "B-Scale"),
+    ("S3", "S-Scale"),
+    ("P10", "P-Scale"),
+    ("D", "Joshua Tree Scale"),
+    ("8B+", "Fontainebleau"),
+    ("B14", "Annot B-Scale"),
+    ("7C", "Font Traverse"),
+)
 
-@pytest.mark.parametrize(("value", "system"), value_system_param)
+other_system_param = (
+    ("Beginner", "Band Other"),
+    ("C4", "Aid"),
+    ("AI6+", "Alpine Ice"),
+    ("WI5", "Water Ice"),
+    ("M9", "Mixed Rock/Ice"),
+    ("D", "Ferrata Schall"),
+    ("5", "Ferrata Num"),
+    ("TD", "Ferrata French"),
+    ("7", "Scottish Winter Technical"),
+)
+
+
+@pytest.mark.parametrize(
+    ("value", "system"), sport_system_param + boulder_system_param + other_system_param
+)
 def test_creating_grade(value, system):
     assert Grade(value, system)
 
@@ -53,8 +79,8 @@ def test_substracting_outside_of_range():
         Grade("1a", "French") - 10
 
 
-@pytest.mark.parametrize(("value1", "system1"), value_system_param)
-@pytest.mark.parametrize(("value2", "system2"), value_system_param)
+@pytest.mark.parametrize(("value1", "system1"), sport_system_param)
+@pytest.mark.parametrize(("value2", "system2"), sport_system_param)
 def test_equality(value1, system1, value2, system2):
     assert Grade(value1, system1) == Grade(value2, system2), "Grades are not equal"
 
