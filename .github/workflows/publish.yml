@@ -2,7 +2,7 @@ name: Upload Python Package to PyPI when a Release is Created
 
 on:
   release:
-    types: [created]
+    types: [published]
 
 jobs:
   pypi-publish:
@@ -28,4 +28,5 @@ jobs:
         run: |
           uv build
       - name: Publish package distributions to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+        run: |
+          uv publish
