@@ -6,6 +6,8 @@
 
 Converting climbing grades made easy!
 
+`🔴 redpoint` is a Python library that simplifies climbing grade conversions.  It supports a wide range of climbing grade systems (sport, bouldering, and more) from thecrag.com, allowing users to easily convert between systems (e.g., YDS to French), compare the difficulty of grades, and even generate ranges of equivalent grades.
+
 ## Overview
 
 Converting the grades between the systems:
