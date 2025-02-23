@@ -130,6 +130,16 @@ def test_substracting_outside_of_range():
         Grade("1a", "French") - 10
 
 
+def test_adding_unsupported_type():
+    with pytest.raises(TypeError):
+        Grade("9c", "French") + "hello"
+
+
+def test_substracting_unsupported_type():
+    with pytest.raises(TypeError):
+        Grade("1a", "French") - "hello"
+
+
 @pytest.mark.parametrize(("value1", "system1"), sport_system_param)
 @pytest.mark.parametrize(("value2", "system2"), sport_system_param)
 def test_equality(value1, system1, value2, system2):
