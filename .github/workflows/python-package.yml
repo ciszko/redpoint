@@ -28,6 +28,9 @@ jobs:
       - name: Run ruff
         run: |
           uv run ruff check redpoint
+      - name: Run mypy
+        run: |
+          uv run mypy redpoint
       - name: Test with pytest
         run: |
           uv run coverage run --source=redpoint -m pytest -v tests && uv run coverage lcov

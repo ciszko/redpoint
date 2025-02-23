@@ -4,7 +4,7 @@ from .grading import (
     UnknownGrade,
     UnknownSystem,
     ConversionError,
-    METHOD_MAPPING,
+    CONVERSION_METHOD,
     SYSTEM_TYPE,
 )
 
@@ -14,6 +14,6 @@ __all__ = [
     "UnknownGrade",
     "UnknownSystem",
     "ConversionError",
-    "METHOD_MAPPING",
+    "CONVERSION_METHOD",
     "SYSTEM_TYPE",
 ]

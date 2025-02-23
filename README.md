@@ -13,24 +13,31 @@ Converting climbing grades made easy!
 Converting the grades between the systems:
 
 ```python
-Grade("5.12a", "YDS").to("French")
->>> <7a+, 'French'>
+from redpoint import Grade
+
+Grade("5.12a", "YDS").to("French")  # <7a+, 'French'>
+```
+
+when typing `Grade` gets tedious, individual systems can be imported as well:
+
+```python
+from grading.systems import YDS
+
+YDS("5.12a").to("French")  # <7a+, 'French'>
 ```
 
 Comparing the difficulty of grades:
 
 ```python
-Grade("5.14a", "YDS") > Grade("8a", "French")
->>> True
-Grade("V11", "V-Scale") == Grade("8A", "Fontainebleau")
->>> True
+Grade("5.14a", "YDS") > Grade("8a", "French")  # True
+Grade("V11", "V-Scale") == Grade("8A", "Fontainebleau")  # True
+UIAA("4") >= Ewbanks("33")  # False
 ```
 
 Getting the range of the grade in different system:
 
 ```python
-Grade("5a", "Brittish Tech.").to_range("French")
->>> [<5b, 'French'>, <5b+, 'French'>, <5c, 'French'>, <5c+, 'French'>, <6a, 'French'>]
+Brittish("5a").to_range("French")  # [<5b, 'French'>, <5b+, 'French'>, <5c, 'French'>, <5c+, 'French'>, <6a, 'French'>]
 ```
 
 For the full list of features check out the [documentation](https://ciszko.github.io/redpoint/).
@@ -47,42 +54,44 @@ python -m pip install redpoint
 
 `🔴 redpoint` supports all the systems available on [thecrag.com](https://www.thecrag.com/en/article/gradesonthecrag):
 
+Values after a comma represent corresponding class names from `redpoint.systems `
+
 **Sport**:
-- Band Sport (difficulty levels)
-- Ewbanks
-- YDS
-- NCCS Scale
-- French
-- British Tech.
-- UIAA
-- South African
-- Old South African
-- Saxon
-- Finnish
-- Norwegian
-- Polish
-- Brazil Technical
-- Swedish
-- Russian
+- Band Sport (difficulty levels), `BandSport`
+- Ewbanks, `Ewbanks`
+- YDS, `YDS`
+- NCCS Scale, `NCCS`
+- French, `French`
+- British Tech., `British`
+- UIAA, `UIAA`
+- South African, `SouthAfrican`
+- Old South African, `OldSouthAfrican`
+- Saxon, `Saxon`
+- Finnish, `Finnish`
+- Norwegian, `Norwegian`
+- Polish, `Polish`
+- Brazil Technical, `Brazilian`
+- Swedish, `Swedish`
+- Russian, `Russian`
 
 **Boulder**:
-- Band Boulder (difficulty levels)
-- V-Scale
-- B-Scale
-- S-Scale
-- P-Scale
-- Joshua Tree Scale
-- Fontainebleau
-- Annot B-Scale
-- Font Traverse
+- Band Boulder (difficulty levels), `BandBoulder`
+- V-Scale, `VScale`
+- B-Scale, `BScale`
+- S-Scale, `SScale`
+- P-Scale, `PScale`
+- Joshua Tree Scale, `JoshuaTree`
+- Fontainebleau, `Font`
+- Annot B-Scale, `AnnotBScale`
+- Font Traverse, `FontTraverse`
 
 **Other systems**:
-- Band Other (difficulty levels)
-- Aid
-- Alpine Ice
-- Water Ice
-- Mixed Rock/Ice
-- Ferrata Schall
-- Ferrata Num
-- Ferrata French
-- Scottish Winter Technical
+- Band Other (difficulty levels), `BandOther`
+- Aid, `Aid`
+- Alpine Ice, `AlpineIce`
+- Water Ice, `WaterIce`
+- Mixed Rock/Ice, `RockIce`
+- Ferrata Schall, `FerrataSchall`
+- Ferrata Num, `FerrataNum`
+- Ferrata French, `FerrataFrench`
+- Scottish Winter Technical, `ScottishWinter`

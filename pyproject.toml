@@ -1,6 +1,6 @@
 [project]
 name = "redpoint"
-version = "1.0.0"
+version = "1.1.0"
 description = "Climbing grade converter"
 readme = "README.md"
 keywords = ["pip", "climbing", "converter"]
@@ -24,6 +24,7 @@ Issues = "https://github.com/ciszko/redpoint/issues"
 dev = [
     "coverage>=7.6.1",
     "furo>=2024.8.6",
+    "mypy>=1.14.1",
     "pytest>=8.3.4",
     "ruff>=0.9.6",
     "sphinx>=7.1.2",

@@ -1,6 +1,13 @@
 import pytest
 
-from redpoint import Grade, UnknownSystem, UnknownGrade, ConversionError
+from redpoint import (
+    Grade,
+    UnknownSystem,
+    UnknownGrade,
+    ConversionError,
+    CONVERSION_METHOD,
+    systems,
+)
 
 
 sport_system_param = (
@@ -45,13 +52,57 @@ other_system_param = (
     ("TD", "Ferrata French"),
     ("7", "Scottish Winter Technical"),
 )
+all_grade_param = sport_system_param + boulder_system_param + other_system_param
 
 
-@pytest.mark.parametrize(
-    ("value", "system"), sport_system_param + boulder_system_param + other_system_param
-)
+@pytest.mark.parametrize(("value", "system"), all_grade_param)
 def test_creating_grade(value, system):
     assert Grade(value, system)
+
+
+climbing_systems = (
+    systems.BandSport,
+    systems.Ewbanks,
+    systems.YDS,
+    systems.NCCS,
+    systems.French,
+    systems.British,
+    systems.UIAA,
+    systems.SouthAfrican,
+    systems.OldSouthAfrican,
+    systems.Saxon,
+    systems.Finnish,
+    systems.Norwegian,
+    systems.Polish,
+    systems.Brazilian,
+    systems.Swedish,
+    systems.Russian,
+    systems.BandBoulder,
+    systems.VScale,
+    systems.BScale,
+    systems.SScale,
+    systems.PScale,
+    systems.JoshuaTree,
+    systems.Font,
+    systems.AnnotBScale,
+    systems.FontTraverse,
+    systems.BandOther,
+    systems.Aid,
+    systems.AlpineIce,
+    systems.WaterIce,
+    systems.RockIce,
+    systems.FerrataSchall,
+    systems.FerrataNum,
+    systems.FerrataFrench,
+    systems.ScottishWinter,
+)
+
+creating_helper_grade_param = zip(all_grade_param, climbing_systems)
+
+
+@pytest.mark.parametrize(("value", "system"), creating_helper_grade_param)
+def test_creating_helper_grade(value, system):
+    assert Grade(value[0], value[1]).value == system(value[0]).value
 
 
 def test_non_existing_system():
@@ -133,7 +184,11 @@ def test_to_range_error():
         Grade("VI-", "Polish").to_range("V-Scale")
 
 
-mapping_method_param = (("min", "5c"), ("avg", "5c+"), ("max", "6a"))
+mapping_method_param = (
+    (CONVERSION_METHOD.MIN, "5c"),
+    (CONVERSION_METHOD.AVERAGE, "5c+"),
+    (CONVERSION_METHOD.MAX, "6a"),
+)
 
 
 @pytest.mark.parametrize(("method", "result"), mapping_method_param)

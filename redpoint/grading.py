@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import Generator, Optional, TypedDict
+from enum import Enum
+from typing import Generator, Optional
 from .mappings import (
     BOULDER_MAPPING,
     OTHER_MAPPING,
@@ -8,21 +9,17 @@ from .mappings import (
     NAMING_MAP,
     BOULDER_SYSTEMS,
     VALID_NAMES,
+    GradeInfo,
 )
 
 
-class UniversalGrade(TypedDict):
-    start: int
-    height: int
-
-
-class METHOD_MAPPING:
+class CONVERSION_METHOD(Enum):
     """Method used to convert the grades. Uses universal value
     to compare the grades.
 
-    * MIN - the easiest possible grade in that range, `universal_value["start"]`
-    * AVERAGE - the average grade in that range, `(universal_value["start"] + universal_value["height"])//2`
-    * MAX - the hardest grade in that range, `universal_value["start"] + universal_value["height"]`
+    * MIN - the easiest possible grade in that range, :code:`universal_value.start`
+    * AVERAGE - the average grade in that range, :code:`(universal_value.start + universal_value.end)//2`
+    * MAX - the hardest grade in that range, :code:`universal_value.end`
     """
 
     MIN = "min"
@@ -30,7 +27,7 @@ class METHOD_MAPPING:
     MAX = "max"
 
 
-class SYSTEM_TYPE:
+class SYSTEM_TYPE(Enum):
     """Internally used to indicate from which type is the grading system."""
 
     SPORT = "SPORT"
@@ -59,11 +56,11 @@ class ConversionError(BaseException):
 class GradingSystem:
     """A class representing a grading system.
 
-    For supported systems take a look at `VALID_NAMES` list.
-    `GradingSystem` supports the following operations:
+    For supported systems take a look at :code:`VALID_NAMES` list.
+    :code:`GradingSystem` supports the following operations:
 
-    * can be iterated over `for x in system:`
-    * can be indexed to return a `Grade` `GradingSystem("YDS")["5.8"]`
+    * can be iterated over :code:`for x in system:`
+    * can be indexed to return a :code:`Grade`, :code:`GradingSystem("YDS")["5.8"]`
     """
 
     def __init__(self, name: str):
@@ -111,7 +108,7 @@ class GradingSystem:
     def __repr__(self) -> str:  # pragma: no cover
         return f"<{self.__str__()}>"
 
-    def get_grade_index(self, key: str) -> tuple[UniversalGrade, int]:
+    def get_grade_index(self, key: str) -> tuple[GradeInfo, int]:
         """Returns the universal value of the grade and its index in the system.
 
         Args:
@@ -133,7 +130,7 @@ class GradingSystem:
             raise UnknownGrade("Grade outside of known range")
 
     def add_to_indexed_grade(self, system_index: int, offset: int) -> Grade:
-        """Finds a grade that is `offset` in offset to `system_index` grade.
+        """Finds a grade that is :code:`offset` in offset to :code:`system_index` grade.
 
         Example:
             6a is a 30th grade of French-sport system. Adding the offset of
@@ -159,8 +156,8 @@ class GradingSystem:
             raise UnknownGrade("Grade outside of known range")
         return Grade(grade, self.name)
 
-    def get_range(self, universal_grade: UniversalGrade) -> list[Grade]:
-        """Returns a range of `Grade` from the universal value.
+    def get_range(self, universal_grade: GradeInfo) -> list[Grade]:
+        """Returns a range of :code:`Grade` from the universal value.
 
         Args:
             universal_grade (UniversalGrade): The universal value of a given grade.
@@ -168,11 +165,10 @@ class GradingSystem:
         Returns:
             list[Grade]: The list of grades within the range of given `universal_grade`.
         """
-        stop = universal_grade["start"] + universal_grade["height"]
         return [
             Grade(name, self.name)
             for (name, value) in self.mapping.items()
-            if universal_grade["start"] <= value["start"] < stop
+            if universal_grade.start <= value.start < universal_grade.end
         ]
 
     def find_grade(self, universal_value: int) -> Optional[Grade]:
@@ -185,7 +181,7 @@ class GradingSystem:
             Optional[Grade]: The grade that matches the universal value.
         """
         for name, value in self.mapping.items():
-            if value["start"] < universal_value <= value["start"] + value["height"]:
+            if value.start < universal_value <= value.end:
                 return Grade(name, scale=self.name)
         else:
             return None
@@ -194,14 +190,14 @@ class GradingSystem:
 class Grade:
     """A class representing one single grade from a given grading system.
 
-    `Grade` supports the following operations:
+    :code:`Grade` supports the following operations:
 
     * adding (+ int), getting x harder grade. :code:`Grade("5a", "French") + 2 == Grade("5b", "French")`
     * substracting (- int), getting x easier grade. :code:`Grade("5.12a", "YDS") - 5 == Grade("5.10d", "YDS")`
     * comparing between grades of any system (`==`, `>`, `>`, `>=`, `<=`)
 
-    Each grade has its own `universal_grade` which is used for conversion
-    between the systems as well as for comparisons between the grades.
+    Each grade has its own :code:`universal_grade`, that is basically a range with a start position and lenght,
+    which is used for conversion between the systems as well as for comparisons between the grades.
     """
 
     def __init__(self, value: str, scale: str):
@@ -224,12 +220,16 @@ class Grade:
         return f"<{self.__str__()}>"
 
     def __add__(self, other) -> Grade:
-        if isinstance(other, int):
-            return self.system.add_to_indexed_grade(self._system_index, other)
+        if not isinstance(other, int):
+            msg = f"unsupported operand type(s) for +: 'Grade' and '{type(other)}'"
+            raise TypeError(msg)
+        return self.system.add_to_indexed_grade(self._system_index, other)
 
     def __sub__(self, other) -> Grade:
-        if isinstance(other, int):
-            return self.system.add_to_indexed_grade(self._system_index, -other)
+        if not isinstance(other, int):
+            msg = f"unsupported operand type(s) for -: 'Grade' and '{type(other)}'"
+            raise TypeError(msg)
+        return self.system.add_to_indexed_grade(self._system_index, -other)
 
     def next(self) -> Grade:
         """Returns one grade harder.
@@ -252,19 +252,17 @@ class Grade:
             return False
         if other.system.name == self.system.name:
             return self.value == other.value
-        self_stop = self.universal_grade["start"] + self.universal_grade["height"]
-        other_stop = other.universal_grade["start"] + other.universal_grade["height"]
-        return max(
-            self.universal_grade["start"], other.universal_grade["start"]
-        ) <= min(self_stop, other_stop)
+        return max(self.universal_grade.start, other.universal_grade.start) <= min(
+            self.universal_grade.end, other.universal_grade.end
+        )
 
     def __lt__(self, other) -> bool:
         if not isinstance(other, Grade):
             msg = f"'<' not supported between instances of 'Grade' and {type(other)}"
             raise TypeError(msg)
         return (
-            self.universal_grade["start"] + self.universal_grade["height"]
-            < other.universal_grade["start"]
+            self.universal_grade.start + self.universal_grade.height
+            < other.universal_grade.start
         )
 
     def __gt__(self, other) -> bool:
@@ -272,8 +270,8 @@ class Grade:
             msg = f"'>' not supported between instances of 'Grade' and {type(other)}"
             raise TypeError(msg)
         return (
-            self.universal_grade["start"]
-            >= other.universal_grade["start"] + other.universal_grade["height"]
+            self.universal_grade.start
+            >= other.universal_grade.start + other.universal_grade.height
         )
 
     def __le__(self, other) -> bool:
@@ -282,17 +280,19 @@ class Grade:
     def __ge__(self, other) -> bool:
         return self.__gt__(other) or self.__eq__(other)
 
-    def _to_universal(self, method: METHOD_MAPPING = METHOD_MAPPING.AVERAGE) -> int:
-        if method == METHOD_MAPPING.MIN:
-            return self.universal_grade["start"]
-        if method == METHOD_MAPPING.AVERAGE:
-            return self.universal_grade["start"] + (self.universal_grade["height"] // 2)
-        if method == METHOD_MAPPING.MAX:
-            return self.universal_grade["start"] + self.universal_grade["height"] - 1
+    def _to_universal(
+        self, method: CONVERSION_METHOD = CONVERSION_METHOD.AVERAGE
+    ) -> int:
+        if method == CONVERSION_METHOD.MIN:
+            return self.universal_grade.start
+        if method == CONVERSION_METHOD.AVERAGE:
+            return self.universal_grade.start + (self.universal_grade.height // 2)
+        if method == CONVERSION_METHOD.MAX:
+            return self.universal_grade.start + self.universal_grade.height - 1
 
     def to(
-        self, system_name: str, method: METHOD_MAPPING = METHOD_MAPPING.AVERAGE
-    ) -> Grade:
+        self, system_name: str, method: CONVERSION_METHOD = CONVERSION_METHOD.AVERAGE
+    ) -> Optional[Grade]:
         """Converts the grade to a given scale.
 
         Args:

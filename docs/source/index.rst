@@ -7,7 +7,7 @@ Welcome to redpoint's documentation!
 .. autoclass:: redpoint.GradingSystem
    :members:
 
-.. autoclass:: redpoint.METHOD_MAPPING
+.. autoclass:: redpoint.CONVERSION_METHOD
    :members:
 
 .. autoclass:: redpoint.SYSTEM_TYPE
@@ -19,6 +19,12 @@ Welcome to redpoint's documentation!
 
 .. autoexception:: redpoint.ConversionError
 
+:code:`redpoint.systems`
+===========================
+
+.. automodule:: redpoint.systems
+   :members:
+   :member-order: bysource
 
 Indices and tables
 ==================
