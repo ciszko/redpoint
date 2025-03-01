@@ -26,6 +26,12 @@ Welcome to redpoint's documentation!
    :members:
    :member-order: bysource
 
+:code:`redpoint.cli`
+====================
+
+.. automodule:: redpoint.cli
+   :members:
+
 Indices and tables
 ==================
 

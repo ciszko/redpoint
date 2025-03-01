@@ -95,3 +95,7 @@ Values after a comma represent corresponding class names from `redpoint.systems 
 - Ferrata Num, `FerrataNum`
 - Ferrata French, `FerrataFrench`
 - Scottish Winter Technical, `ScottishWinter`
+
+## CLI
+
+`🔴 redpoint` comes with a built-in CLI, so that you can convert the grades straight from the terminal.

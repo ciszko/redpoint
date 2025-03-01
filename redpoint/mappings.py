@@ -34,7 +34,7 @@ VALID_NAMES = (
     ("Swedish", "SWE"),
     ("Russian", "RU"),
     ("Band Boulder",),
-    ("V-Scale", "V"),
+    ("V-Scale", "V", "Hueco"),
     ("B-Scale", "B"),
     ("S-Scale", "S"),
     ("P-Scale", "P"),
