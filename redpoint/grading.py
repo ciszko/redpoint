@@ -75,7 +75,7 @@ class GradingSystem:
         try:
             system_name = NAMING_MAP[name.lower()]
         except KeyError as e:
-            msg = f"System not found. Valid scale names are: {VALID_NAMES}"
+            msg = f"System not found. Valid system names are: {VALID_NAMES}"
             raise UnknownSystem(msg) from e
 
         if system_name in BOULDER_SYSTEMS:
@@ -160,16 +160,20 @@ class GradingSystem:
         """Returns a range of :code:`Grade` from the universal value.
 
         Args:
-            universal_grade (UniversalGrade): The universal value of a given grade.
+            universal_grade (GradeInfo): The universal value of a given grade.
 
         Returns:
             list[Grade]: The list of grades within the range of given `universal_grade`.
         """
-        return [
-            Grade(name, self.name)
-            for (name, value) in self.mapping.items()
-            if universal_grade.start <= value.start < universal_grade.end
-        ]
+        output = []
+        for g in self.mapping.keys():
+            grade = Grade(g, self.name)
+            if max(grade.universal_grade.start, universal_grade.start) < min(
+                grade.universal_grade.end, universal_grade.end
+            ):
+                output.append(grade)
+
+        return output
 
     def find_grade(self, universal_value: int) -> Optional[Grade]:
         """Returns a grade that matches the given universal value.
@@ -250,6 +254,9 @@ class Grade:
     def __eq__(self, other) -> bool:
         if not isinstance(other, Grade):
             return False
+        if other.system.system_type != self.system.system_type:
+            msg = f"Cannot compare {self.system.system_type} grade to {other.system.system_type} grade"
+            raise ConversionError(msg)
         if other.system.name == self.system.name:
             return self.value == other.value
         return max(self.universal_grade.start, other.universal_grade.start) <= min(
@@ -260,6 +267,9 @@ class Grade:
         if not isinstance(other, Grade):
             msg = f"'<' not supported between instances of 'Grade' and {type(other)}"
             raise TypeError(msg)
+        if other.system.system_type != self.system.system_type:
+            msg = f"Cannot compare {self.system.system_type} grade to {other.system.system_type} grade"
+            raise ConversionError(msg)
         return (
             self.universal_grade.start + self.universal_grade.height
             < other.universal_grade.start
@@ -269,6 +279,9 @@ class Grade:
         if not isinstance(other, Grade):
             msg = f"'>' not supported between instances of 'Grade' and {type(other)}"
             raise TypeError(msg)
+        if other.system.system_type != self.system.system_type:
+            msg = f"Cannot compare {self.system.system_type} grade to {other.system.system_type} grade"
+            raise ConversionError(msg)
         return (
             self.universal_grade.start
             >= other.universal_grade.start + other.universal_grade.height
