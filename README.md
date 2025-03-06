@@ -54,7 +54,7 @@ python -m pip install redpoint
 
 `🔴 redpoint` supports all the systems available on [thecrag.com](https://www.thecrag.com/en/article/gradesonthecrag):
 
-Values after a comma represent corresponding class names from `redpoint.systems `
+Values after a comma represent corresponding class names from `redpoint.systems`, thus can be used to initialize the class.
 
 **Sport**:
 - Band Sport (difficulty levels), `BandSport`
@@ -95,3 +95,27 @@ Values after a comma represent corresponding class names from `redpoint.systems 
 - Ferrata Num, `FerrataNum`
 - Ferrata French, `FerrataFrench`
 - Scottish Winter Technical, `ScottishWinter`
+
+## CLI
+
+`🔴 redpoint` comes with a built-in CLI, so that you can convert the grades straight from the terminal. After installing the package
+run:
+```sh
+redpoint --help
+```
+to see the available commands:
+```sh
+Usage: redpoint [OPTIONS] COMMAND [ARGS]...
+
+  Redpoint: Climbing grade conversion tool.
+
+Options:
+  --version  Show the version and exit.
+  --help     Show this message and exit.
+
+Commands:
+  compare  Compares the difficulty between two grades.
+  convert  Converts the grade into desired system.
+  system   Lists all grades from desired system.
+  systems  Lists supported climbing grade systems.
+```

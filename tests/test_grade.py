@@ -150,6 +150,11 @@ def test_equality_non_grade():
     assert Grade("VI.6", "Polish") != 2
 
 
+def test_equality_different_systems():
+    with pytest.raises(ConversionError):
+        Grade("7a", "French") == Grade("V11", "V-Scale")
+
+
 def test_less_or_equal():
     assert Grade("5a", "French") <= Grade("VI.1", "Polish")
 
@@ -159,9 +164,19 @@ def test_less_than_non_grade():
         Grade("8a", "French") < 50
 
 
+def test_less_than_different_systems():
+    with pytest.raises(ConversionError):
+        Grade("7a", "French") < Grade("V11", "V-Scale")
+
+
 def test_greater_than_non_grade():
     with pytest.raises(TypeError):
         Grade("8a", "French") > 2
+
+
+def test_greater_than_different_systems():
+    with pytest.raises(ConversionError):
+        Grade("7a", "French") > Grade("V11", "V-Scale")
 
 
 def test_greater_or_equal():
