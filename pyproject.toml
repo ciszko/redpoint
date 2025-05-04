@@ -1,6 +1,6 @@
 [project]
 name = "redpoint"
-version = "1.3.0"
+version = "1.4.1"
 description = "Climbing grade converter"
 readme = "README.md"
 keywords = ["pip", "climbing", "converter"]
