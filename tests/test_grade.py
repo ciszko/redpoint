@@ -14,6 +14,7 @@ sport_system_param = (
     ("Beginner", "Band Sport"),
     ("12", "Ewbanks"),
     ("5.5", "YDS"),
+    ("5", "IRCRA"),
     ("F5", "NCCS Scale"),
     ("3c+", "French"),
     ("4a", "British Tech."),
@@ -60,43 +61,9 @@ def test_creating_grade(value, system):
     assert Grade(value, system)
 
 
-climbing_systems = (
-    systems.BandSport,
-    systems.Ewbanks,
-    systems.YDS,
-    systems.NCCS,
-    systems.French,
-    systems.British,
-    systems.UIAA,
-    systems.SouthAfrican,
-    systems.OldSouthAfrican,
-    systems.Saxon,
-    systems.Finnish,
-    systems.Norwegian,
-    systems.Polish,
-    systems.Brazilian,
-    systems.Swedish,
-    systems.Russian,
-    systems.BandBoulder,
-    systems.VScale,
-    systems.BScale,
-    systems.SScale,
-    systems.PScale,
-    systems.JoshuaTree,
-    systems.Font,
-    systems.AnnotBScale,
-    systems.FontTraverse,
-    systems.BandOther,
-    systems.Aid,
-    systems.AlpineIce,
-    systems.WaterIce,
-    systems.RockIce,
-    systems.FerrataSchall,
-    systems.FerrataNum,
-    systems.FerrataFrench,
-    systems.ScottishWinter,
-)
-
+climbing_systems = [
+    cls for cls in systems.__dict__.values() if isinstance(cls, type) if cls != Grade
+]
 creating_helper_grade_param = zip(all_grade_param, climbing_systems)
 
 

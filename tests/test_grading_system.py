@@ -1,6 +1,6 @@
 import pytest
 
-from redpoint import GradingSystem, UnknownSystem, UnknownGrade, ConversionError
+from redpoint import GradingSystem, UnknownSystem, UnknownGrade
 
 
 def test_unknown_system():

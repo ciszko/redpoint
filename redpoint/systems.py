@@ -21,6 +21,11 @@ class YDS(Grade):
         super().__init__(value, "YDS")
 
 
+class IRCRA(Grade):
+    def __init__(self, value: str):
+        super().__init__(value, "IRCRA")
+
+
 class NCCS(Grade):
     def __init__(self, value: str):
         super().__init__(value, "NCCS Scale")
