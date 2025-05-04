@@ -7,6 +7,7 @@ from .grading import (
     CONVERSION_METHOD,
     SYSTEM_TYPE,
 )
+from . import systems
 
 __all__ = [
     "Grade",
@@ -16,4 +17,5 @@ __all__ = [
     "ConversionError",
     "CONVERSION_METHOD",
     "SYSTEM_TYPE",
+    "systems",
 ]
